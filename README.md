@@ -1,7 +1,7 @@
 # ng-recaptcha3
 Angular service for Google reCAPTCHA 3
 
-See [Demo](https://ng-recaptcha3.stackblitz.io)
+See [Demo](https://stackblitz.com/edit/ng-recaptcha3)
 
 # Installation
 
