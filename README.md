@@ -5,7 +5,7 @@ See [Demo](https://stackblitz.com/edit/ng-recaptcha3)
 
 # Installation
 
-Run following command to install ng2-tel-input
+Run following command to install ng-recaptcha3
 
 ```sh
 npm i ng-recaptcha3 --save
