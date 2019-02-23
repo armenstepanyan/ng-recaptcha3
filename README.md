@@ -67,6 +67,7 @@ On form submit generate recaptcha token (it will be checked in backend) using *s
 
 ## Backend
 In backend we need to verify given token using secretKey.
+### node.js example
 ```angular2html
 const request = require('request-promise');
 
@@ -84,4 +85,24 @@ const request = require('request-promise');
         // otherwise continue handling/saving form data
         next();
     })
+```
+
+### PHP example
+```angular2html
+$recaptchaToken = isset($_POST['recaptchaToken']) ? $_POST['recaptchaToken'] : false;
+
+  if(!$recaptchaToken) {
+    //Do something with error
+  }
+  
+  $secretKey = YOUR_RECAPTCHA_SECRET_KEY;
+  $userIp = $_SERVER['REMOTE_ADDR'];
+  $response=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$secretKey."&response=".$recaptchaToken."&remoteip=".$userIp);
+  
+  if($response.success == false){
+              //Do something with error
+              
+  } else {
+    // reCaptchaToken is valid you can continue with the rest of your code
+  }
 ```
