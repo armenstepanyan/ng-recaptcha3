@@ -38,6 +38,7 @@ export class NgRecaptcha3Service {
   }
 
   public destroy() {
+	this.isLoaded = false;
     const script = document.getElementById(`recapthcha-${this.scriptId}`);
     if (script) {
       script.remove();
