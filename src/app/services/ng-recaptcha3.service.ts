@@ -9,7 +9,7 @@ export class NgRecaptcha3Service {
   private baseUrl = 'https://www.google.com/recaptcha/api.js';
   private siteKey = '';
   private isLoaded: Boolean = false;
-  private scriptId: number;
+  private scriptId;
 
 
   public constructor() {
@@ -19,23 +19,37 @@ export class NgRecaptcha3Service {
     this.scriptId = +(new Date());
   }
 
-  public getToken(): Promise<any> {
-    return window['grecaptcha'].execute(this.siteKey);
+  public getToken(action?: any): Promise<any> {
+    return window['grecaptcha'].execute(this.siteKey, action);
   }
 
-  public init(siteKey: string) {
-    if (this.isLoaded) {
-      return;
-    }
-    this.siteKey = siteKey;
-    const script = document.createElement('script');
-    script.innerHTML = '';
-    script.src = this.baseUrl + `?render=${this.siteKey}&onload=ngRecaptcha3Loaded`;
-    script.id = `recapthcha-${this.scriptId}`;
-    script.async = true;
-    script.defer = true;
-    document.head.appendChild(script);
+  public init(siteKey) {
+    return new Promise((resolve, reject) => {
+      if (this.isLoaded) {
+        resolve('success');
+        return;
+      } else {
+        this.siteKey = siteKey;
+        const script = document.createElement('script');
+        script.innerHTML = '';
+        script.src = this.baseUrl + `?render=${this.siteKey}&onload=ngRecaptcha3Loaded`;
+        script.id = `recapthcha-${this.scriptId}`;
+        script.async = true;
+        script.defer = true;
+        script.onload = () => {
+          resolve('success');
+        }
+        script.onerror = () => {
+          reject('error');
+        };
+        document.head.appendChild(script);
+      }
+
+    });
+
   }
+
+
 
   public destroy() {
 	this.isLoaded = false;
@@ -43,7 +57,6 @@ export class NgRecaptcha3Service {
     if (script) {
       script.remove();
     }
-    window['grecaptcha'] = null;
     const badge = document.getElementsByClassName('grecaptcha-badge')[0];
     if (badge) {
       badge.remove();

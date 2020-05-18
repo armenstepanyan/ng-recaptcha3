@@ -44,7 +44,20 @@ Pass your siteKey to init function
   }
 ```
 
+The `init` function will return Promise with `status` parameter that will indicate script loaded status
+```
+  ngOnInit() {    
+    this.recaptcha3.init(YOUR_SITE_KEY).then(status => {
+      // status: success/error
+      // success - script is loaded and greaptcha is ready
+      // error - script is not loaded
+      console.log(status)
+    })
+  }
+```
+
 On form submit generate recaptcha token (it will be checked in backend) using *siteKey*
+
 ```angular2html
 
   onSubmit() {
@@ -56,14 +69,27 @@ On form submit generate recaptcha token (it will be checked in backend) using *s
 
     // generate new token
     this.recaptcha3.getToken().then(token => {
-    const formData = this.myForm.value;
-    formData.recaptchaToken = token;
-    // send data with token to backend
-    this.http.post(url,formData) ....
+      const formData = this.myForm.value;
+      formData.recaptchaToken = token;
+      // send data with token to backend
+      this.http.post(url,formData) ....
 
     }
 
   }
+```
+
+Execute `getToken` with action name. See more [here](https://developers.google.com/recaptcha/docs/v3#actions)
+``` 
+this.recaptcha3.getToken({ action: 'homepage' })
+``` 
+
+You can destroy recaptcha in ngOnDestroy
+```angular2html
+  public ngOnDestroy() {
+    this.recaptcha3.destroy();
+  }
+}
 ```
 
 ## Backend
