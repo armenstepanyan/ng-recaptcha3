@@ -66,7 +66,6 @@ On form submit generate recaptcha token (it will be checked in backend) using *s
       return;
     }
 
-
     // generate new token
     this.recaptcha3.getToken().then(token => {
       const formData = this.myForm.value;
@@ -74,6 +73,9 @@ On form submit generate recaptcha token (it will be checked in backend) using *s
       // send data with token to backend
       this.http.post(url,formData) ....
 
+    }, error => {
+      // get error, e.g. if key is invalid
+      console.log(error)
     }
 
   }
