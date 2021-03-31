@@ -20,7 +20,13 @@ export class NgRecaptcha3Service {
   }
 
   public getToken(action?: any): Promise<any> {
-    return window['grecaptcha'].execute(this.siteKey, action);
+    try {
+      return window['grecaptcha'].execute(this.siteKey, action);
+    } catch (e) {
+      return new Promise((resolve, reject) => {
+        reject(e);
+      });
+    }
   }
 
   public init(siteKey) {

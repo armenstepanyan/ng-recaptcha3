@@ -48,7 +48,9 @@ export class AppComponent implements OnInit {
         // this.myHttpService.login(this.formData).subscribe(response => {
         //
         // });
-      });
+      }, error => {
+		  console.log('err ',error)
+	  });
     }
   }
 
